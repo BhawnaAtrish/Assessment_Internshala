@@ -33,6 +33,16 @@
                         <a class="nav-link" href="/add_cars">Add Cars</a>
                     </li>
                 <?php endif ?>
+                <?php if (session()->has('user_id') && session()->has('username') && session()->get('user_type') == 'agency') : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/view_booked_cars">View Booked Cars</a>
+                    </li>
+                <?php endif ?>
+                <?php if (session()->has('user_id') && session()->has('username') && session()->get('user_type') == 'agency') : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/view_all_cars">View Your Cars</a>
+                    </li>
+                <?php endif ?>
             </ul>
         </div>
     </nav>
