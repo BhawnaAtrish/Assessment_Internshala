@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Add New Car</title>
+    <title>Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,7 +32,7 @@
         }
 
         input[type="text"],
-        input[type="number"] {
+        input[type="password"] {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -53,48 +53,26 @@
         input[type="submit"]:hover {
             background-color: #555;
         }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
     </style>
 </head>
 
 <body>
     <?= session()->getFlashdata('error') ?>
 
-    <form action="/add_cars" method="post">
+    <form action="/login" method="post">
         <?= csrf_field() ?>
 
-        <label for="agency_id">Agency: <?= esc(session()->get('username')) ?></label>
-        <input type="text" id="agency_id" name="agency_id" value="<?= esc(session()->get('user_id')) ?>" readonly>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
 
-
-        <label for="vehicle_model">Vehicle Model:</label>
-        <input type="text" id="vehicle_model" name="vehicle_model">
-
-        <!-- Vehicle Number -->
-        <label for="vehicle_number">Vehicle Number:</label>
-        <input type="text" id="vehicle_number" name="vehicle_number" required>
-
-        <!-- Seating Capacity -->
-        <label for="seating_capacity">Seating Capacity:</label>
-        <input type="number" id="seating_capacity" name="seating_capacity" required>
-
-        <!-- Rent Per Day -->
-        <label for="rent_per_day">Rent Per Day:</label>
-        <input type="number" id="rent_per_day" name="rent_per_day" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
 
         <?php if (isset($message)) : ?>
             <?= $message ?>
         <?php endif ?>
         <!-- Submit Button -->
-        <input type="submit" name="submit" value="Add Car">
+        <input type="submit" name="submit" value="Login">
     </form>
 </body>
 

@@ -7,20 +7,21 @@ use CodeIgniter\Model;
 class UsersModel extends Model
 {
     protected $table = 'users';
-    public function getUsers($slug = false)
+    public function getUsers()
     {
-        if ($slug === false) {
-            return $this->findAll();
-        }
-
-        return $this->where(['slug' => $slug])->first();
+        return $this->findAll();
     }
     public function getAgencies()
     {
         return $this->where(['user_type' => "agency"]);
     }
-    // public function getCustomers()
-    // {
-    //     return $this->where(['user_type' => "customer"]);
-    // }
+    public function getUser($username, $password)
+    {
+        $user = $this->where(['username' => $username, 'password' => $password])->first();
+        if ($user) {
+            return $user;
+        } else {
+            return null;
+        }
+    }
 }

@@ -8,16 +8,15 @@ use App\Models\CarsModel;
 
 class CarsController extends BaseController
 {
+    protected $session;
+
+    public function __construct()
+    {
+        $this->session = \Config\Services::session();
+    }
     public function create()
     {
-        helper('form');
         $model = model(UsersModel::class);
-
-        $data = [
-            'users'  => $model->getAgencies(),
-            'title' => 'Add Car',
-        ];
-
         // Checks whether the submitted data passed the validation rules.
         if (!$this->validate([
             'agency_id' => 'required',
@@ -46,17 +45,19 @@ class CarsController extends BaseController
 
     public function index($message = false)
     {
-        $model = model(UsersModel::class);
+        if ($this->session->has('user_id') && $this->session->get('user_type') == 'agency') {
+            $model = model(UsersModel::class);
 
-        $data = [
-            'users'  => $model->getAgencies(),
-            'title' => 'Add Car',
-        ];
-        if($message){
-            $data['message'] = $message;
+            $data = [
+                'users'  => $model->getAgencies(),
+                'title' => 'Add Car',
+            ];
+            if ($message) {
+                $data['message'] = $message;
+            }
+            return view('templates/header', $data)
+                . view('cars/view');
         }
-        return view('templates/header', $data)
-            . view('cars/view')
-            . view('templates/footer');
+        return redirect()->to("/");
     }
 }

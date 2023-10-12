@@ -17,8 +17,7 @@ class Bookings extends BaseController
         ];
 
         return view('templates/header', $data)
-            . view('bookings/index')
-            . view('templates/footer');
+            . view('bookings/index');
     }
 
     public function show($slug = null)
@@ -34,7 +33,6 @@ class Bookings extends BaseController
         $data['title'] = $data['bookings']['booking_id'];
 
         return view('templates/header', $data)
-            . view('bookings/view')
-            . view('templates/footer');
+            . view('bookings/view');
     }
 }
