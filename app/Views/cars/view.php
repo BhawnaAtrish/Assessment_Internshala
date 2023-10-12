@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Add New Car</title>
     <style>
@@ -53,35 +53,32 @@
         input[type="submit"]:hover {
             background-color: #555;
         }
+
         select {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
     </style>
 </head>
-<body>
-<h2><?= esc($data['user_id']) ?></h2>
-    <?= session()->getFlashdata('error') ?>
-    
-    <form action="/add_cars" method="post">
-    <?= csrf_field() ?>
 
-    <label for="agency_id">Agency:</label>
+<body>
+    <?= session()->getFlashdata('error') ?>
+
+    <form action="/add_cars" method="post">
+        <?= csrf_field() ?>
+
+        <label for="agency_id">Agency:</label>
         <select id="agency_id" name="agency_id" required>
             <option value="">Select an agency</option>
-            <!-- Populate the options dynamically with data from your database -->
             <option value="1">1</option>
-            <option value="2">2</option>
-            <!-- Add more options as needed -->
         </select>
-        <!-- Vehicle Model -->
-        
+
         <label for="vehicle_model">Vehicle Model:</label>
-        <input type="text" id="vehicle_model" name="vehicle_model" value="<?= set_value('title') ?>">
+        <input type="text" id="vehicle_model" name="vehicle_model">
 
         <!-- Vehicle Number -->
         <label for="vehicle_number">Vehicle Number:</label>
@@ -95,8 +92,12 @@
         <label for="rent_per_day">Rent Per Day:</label>
         <input type="number" id="rent_per_day" name="rent_per_day" required>
 
+        <?php if (isset($message)) : ?>
+            <?= $message ?>
+        <?php endif ?>
         <!-- Submit Button -->
         <input type="submit" name="submit" value="Add Car">
     </form>
 </body>
+
 </html>

@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Models\UsersModel;
 use App\Models\CarsModel;
 
-use CodeIgniter\Exceptions\PageNotFoundException;
 
 class CarsController extends BaseController
 {
@@ -20,19 +19,17 @@ class CarsController extends BaseController
         ];
 
         // Checks whether the submitted data passed the validation rules.
-        if (! $this->validate([
+        if (!$this->validate([
             'agency_id' => 'required',
             'vehicle_model' => 'required|max_length[255]|min_length[3]',
             'vehicle_number'  => 'required|max_length[5000]|min_length[1]',
             'seating_capacity' => 'required',
             'rent_per_day'  => 'required',
-            
+
         ])) {
-            // The validation fails, so returns the form.
-            return $this->index();
+            return $this->index($message = 'Invalid data!');
         }
 
-        // Gets the validated data.
         $post = $this->validator->getValidated();
 
         $model = model(CarsModel::class);
@@ -44,13 +41,10 @@ class CarsController extends BaseController
             'seating_capacity' => $post['seating_capacity'],
             'rent_per_day'  => $post['rent_per_day']
         ]);
-
-        return view('templates/header', ['title' => 'Create a car item'])
-            . view('cars/view', $data)
-            . view('templates/footer');
+        return $this->index($message = "Car data saved successfully!");
     }
 
-    public function index()
+    public function index($message = false)
     {
         $model = model(UsersModel::class);
 
@@ -58,8 +52,9 @@ class CarsController extends BaseController
             'users'  => $model->getAgencies(),
             'title' => 'Add Car',
         ];
-
-        helper('form');
+        if($message){
+            $data['message'] = $message;
+        }
         return view('templates/header', $data)
             . view('cars/view')
             . view('templates/footer');
