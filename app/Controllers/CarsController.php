@@ -10,11 +10,13 @@ class CarsController extends BaseController
 {
     protected $session;
     protected $carsModel;
+    protected $authController;
 
     public function __construct()
     {
         $this->session = \Config\Services::session();
         $this->carsModel = model(CarsModel::class);
+        $this->authController = new AuthController();
     }
     public function create()
     {
@@ -79,6 +81,25 @@ class CarsController extends BaseController
 
         return redirect()->to("/");
     }
+    public function checkIfCustomerLoggedIn()
+    {
+        return ($this->session->has('user_id') && $this->session->has('user_type') && $this->session->get('user_type') == 'customer');
+    }
+    public function availableCars($data = false)
+    {
+        if (!$data) {
+            $data = [];
+        }
+        $cars = $this->carsModel->getAvailableCars();
+        $customerLoggedIn = $this->checkIfCustomerLoggedIn();
+        $data['title'] = 'Available Cars';
+        $data['cars'] = $cars;
+        $data["customerLoggedIn"] = $customerLoggedIn;
+
+        return view('templates/header', $data)
+            . view('cars/viewAvailableCars', $data);
+    }
+
 
     public function viewAllCars()
     {
@@ -117,25 +138,17 @@ class CarsController extends BaseController
     public function updateCar($carId)
     {
         $model = model(CarsModel::class);
-
-        // Check if the form data passes the validation rules
         if (!$this->validate([
             'vehicle_model' => 'required|max_length[255]|min_length[3]',
             'vehicle_number' => 'required|max_length[5000]|min_length[1]',
             'seating_capacity' => 'required',
             'rent_per_day' => 'required',
         ])) {
-            // If validation fails, redirect back to the edit form with an error message
             return $this->editCar($carId, 'Invalid data');
         }
-
-        // Get the validated form data
         $postData = $this->request->getPost();
-
-        // Update the car details in the database
         $model->update($carId, $postData);
 
-        // Redirect to the view cars page with a success message
         return redirect()->to('/view_all_cars')->with('success', 'Car details updated successfully');
     }
 }

@@ -3,6 +3,7 @@
 
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -69,9 +70,10 @@
         <input type="password" id="password" name="password" required>
 
         <?php if (isset($message)) : ?>
-            <?= $message ?>
+            <div class="alert alert-info" role="alert">
+                <?= $message ?>
+            </div>
         <?php endif ?>
-        <!-- Submit Button -->
         <input type="submit" name="submit" value="Login">
     </form>
 </body>

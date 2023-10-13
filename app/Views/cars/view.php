@@ -70,9 +70,7 @@
 
     <form action="/add_cars" method="post">
         <?= csrf_field() ?>
-
-        <label for="agency_id">Agency: <?= esc(session()->get('username')) ?></label>
-        <input type="text" id="agency_id" name="agency_id" value="<?= esc(session()->get('user_id')) ?>" readonly>
+        <input type="hidden" id="agency_id" name="agency_id" value="<?= esc(session()->get('user_id')) ?>" readonly>
 
 
         <label for="vehicle_model">Vehicle Model:</label>

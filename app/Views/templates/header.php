@@ -16,29 +16,33 @@
             <ul class="navbar-nav ml-auto">
                 <?php if (session()->has('user_id') && session()->has('username')) : ?>
                     <li class="nav-item">
+                        <span class="nav-link">Hi, <?= esc(session()->get('fullname')) ?></span>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
                     </li>
                 <?php else : ?>
                     <li class="nav-item">
                         <a class="nav-link" href="/">Login</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
                 <?php endif ?>
 
-                <!-- Add two more links -->
                 <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/view_available_cars">Available Cars</a>
                 </li>
                 <?php if (session()->has('user_id') && session()->has('username') && session()->get('user_type') == 'agency') : ?>
                     <li class="nav-item">
                         <a class="nav-link" href="/add_cars">Add Cars</a>
                     </li>
-                <?php endif ?>
-                <?php if (session()->has('user_id') && session()->has('username') && session()->get('user_type') == 'agency') : ?>
                     <li class="nav-item">
                         <a class="nav-link" href="/view_booked_cars">View Booked Cars</a>
                     </li>
-                <?php endif ?>
-                <?php if (session()->has('user_id') && session()->has('username') && session()->get('user_type') == 'agency') : ?>
                     <li class="nav-item">
                         <a class="nav-link" href="/view_all_cars">View Your Cars</a>
                     </li>

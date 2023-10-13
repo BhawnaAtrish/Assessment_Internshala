@@ -43,6 +43,22 @@ class CarsModel extends Model
         return $bookedCars;
     }
 
+    public function getAvailableCars()
+    {
+        $db = db_connect();
+        $query = $db->query(
+            "SELECT t2.* FROM bookings t1
+            INNER JOIN cars t2 ON t1.car_id = t2.car_id
+            WHERE DATE_ADD(t1.start_date, INTERVAL t1.number_of_days DAY) <= CURDATE()
+            UNION
+            SELECT t1.* FROM cars t1 LEFT JOIN bookings t2 on t1.car_id = t2.car_id where t2.car_id is null
+            "
+        );
+
+        $availableCars = $query->getResult();
+        return $availableCars;
+    }
+
     public function getCarDetails($carId)
     {
         $car = $this->where(['car_id' => $carId])->first();
